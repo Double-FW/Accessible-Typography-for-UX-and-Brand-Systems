@@ -264,7 +264,7 @@ The related WCAG criteria in the source collection cover contrast, resizing, ima
 
 ## 7. Testing typography in context
 
-No typeface should be approved as accessible solely through expert inspection. Inspection identifies risks and suitable candidates; testing shows how people perform with them.
+No typeface should be labelled as accessible solely through expert inspection. Inspection identifies risks and suitable candidates; testing shows how people perform with them. Expert review can inform ways of optimising a font's design, user testing with a statistically significant group, in a way that does not prime or bias a design is the only way of evidencing accessibility objectively.
 
 ### Test the typeface and the typography separately
 
