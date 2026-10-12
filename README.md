@@ -13,7 +13,7 @@ This project is intended to support:
 ## Repository contents
 
 - `Accessible_Typography_for_UX_and_Brand_Systems.md` — the main document, combining the source writings into a single structured article.
-- `agent.md` — a purpose-built instruction file for any LLM involved in brand, communications, marketing, or publishing design, grounded in the repository's accessible typography guidance.
+- `AGENTS.md` — a purpose-built instruction file for any LLM involved in brand, communications, marketing, or publishing design, grounded in the repository's accessible typography guidance.
 - `LICENSE` — MIT license for the repository.
 - `README.md` — project overview and usage guidance.
 
@@ -84,4 +84,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for full 
 
 ## Notes
 
-This repository is a research and reference dataset, not a formal WCAG certification or a single authoritative standard. It should be used alongside current standards, organizational policy, and context-specific evaluation. The included `agent.md` is a practical interpretive layer for AI-assisted design work, not a substitute for live user research, governance review, or legal/compliance advice.
+This repository is a research and reference dataset, not a formal WCAG certification or a single authoritative standard. It should be used alongside current standards, organizational policy, and context-specific evaluation. The included `AGENTS.md` is a practical interpretive layer for AI-assisted design work, not a substitute for live user research, governance review, or legal/compliance advice.
