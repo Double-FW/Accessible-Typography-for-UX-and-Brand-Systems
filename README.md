@@ -33,7 +33,7 @@ It frames accessibility not as a single font choice or one-size-fits-all rule, b
 
 ## Agent guidance
 
-The repository also includes `agent.md`, which provides operational instructions for AI systems working in brand, communications, marketing, and publishing design. Its purpose is to help an LLM:
+The repository also includes `AGENTS.md`, which provides operational instructions for AI systems working in brand, communications, marketing, and publishing design. Its purpose is to help an LLM:
 
 - separate emotional, functional, and technical accessibility in typography decisions;
 - evaluate type choices in context rather than as isolated style preferences;
