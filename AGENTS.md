@@ -1,6 +1,61 @@
+---
+title: "Agent Instructions for Brand, Communications, Marketing, and Publishing Design"
+version: "1.0"
+author:
+  name: "Double FW"
+  contact: "mailto:info@doublefw.com"
+date: "2026-10-12"
+license: "CC-BY-4.0"
+language: "en"
+repository: "github.com/Double-FW/Accessible-Typography-for-UX-and-Brand-Systems"
+artifact_type: "knowledge-base/agent-guidance"
+use_case:
+  - "brand-design"
+  - "communications-design"
+  - "marketing-design"
+  - "publishing-design"
+  - "editorial-design"
+  - "typography-evaluation"
+  - "ai-agent-guidance"
+schema_version: "agent-metadata-v1"
+entities:
+  roles:
+    - "Brand Lead"
+    - "Marketing Lead"
+    - "Communications Lead"
+    - "Editorial Lead"
+    - "Design Lead"
+    - "Content Lead"
+    - "AI Agent"
+  concepts:
+    - "typography"
+    - "legibility"
+    - "readability"
+    - "brand-voice"
+    - "language-and-script-support"
+    - "emotional-accessibility"
+    - "functional-accessibility"
+    - "technical-accessibility"
+    - "evidence-based-design"
+  artifacts:
+    - "recommendation"
+    - "evaluation-criteria"
+    - "brand-guidance"
+    - "testing-plan"
+    - "decision-record"
+  governance:
+    - "human-review"
+    - "evidence-traceability"
+    - "risk-flagging"
+    - "decision-recording"
+notes: |
+  This metadata enables automated discovery, validation, and policy enforcement.
+  Update the schema_version when the front matter structure changes.
+---
+
 # Agent Instructions for Brand, Communications, Marketing, and Publishing Design
 
-This document is intended for any LLM assisting with brand, communications, marketing, publishing, or editorial design. It is grounded in the repository's synthesis of The Readability Group material and the linked source references included in the project.
+This document is intended for any LLM assisting with brand, communications, marketing, publishing, or editorial design. It is grounded in the repository's synthesis of The Readability Group material and related practice in accessible typography, editorial design, and communication systems.
 
 ## Purpose
 
@@ -11,7 +66,386 @@ Treat typography as part of the communication system, not as a decorative or pur
 - whether the text works across languages, devices, and reading contexts; and
 - whether the design supports trust, clarity, and brand integrity.
 
-Accessible typography is not a single font choice, a fixed-size rule, or a universal statement such as “serif is more accessible” or “sans serif is more accessible.” It is a system-level outcome.
+Accessible typography is not a single font choice, a fixed-size rule, or a universal statement such as “serif is more accessible” or “sans serif is more accessible.” It is a system-level outcome. It depends on the typeface, the language, the reading task, the audience, the display conditions, and the surrounding design system.
+
+## Machine-readable metadata and policy schema
+
+This file now includes machine-readable metadata and a minimal policy contract so agents, CI checks, and tooling can parse the rules without re-deriving the meaning from prose alone.
+
+```yaml
+schema_version: "policy-schema-v1"
+required_fields:
+  - id
+  - title
+  - description
+  - severity
+  - owner
+  - decision_gate
+  - created_at
+fields:
+  id:
+    type: string
+    pattern: "^P-[0-9]{3,}$"
+  title:
+    type: string
+  description:
+    type: string
+  severity:
+    type: string
+    enum: ["info", "low", "medium", "high", "critical"]
+  owner:
+    type: object
+    properties:
+      name: { type: string }
+      role: { type: string }
+      contact: { type: string }
+  decision_gate:
+    type: string
+  applicability:
+    type: array
+    items: { type: string }
+  conditions:
+    type: array
+    items: { type: string }
+  actions:
+    type: array
+    items: { type: string }
+  retention_days:
+    type: integer
+  decision_allowed:
+    type: boolean
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  approved_by:
+    type: array
+    items: { type: string }
+```
+
+Example policy entry:
+
+```yaml
+id: "P-001"
+title: "Typography risk: insufficient evidence before recommendation"
+description: "A typography recommendation must include audience, reading task, language/script, and evidence before it is treated as a recommendation."
+severity: "high"
+owner:
+  name: "Design Lead"
+  role: "Design Lead"
+  contact: "mailto:design-lead@example.com"
+decision_gate: "Design Lead"
+applicability:
+  - "typeface.recommendation"
+  - "layout.review"
+conditions:
+  - "audience_defined == true"
+  - "task_defined == true"
+  - "language_script_defined == true"
+  - "evidence_summary_present == true"
+actions:
+  - "If conditions are met, proceed with recommendation and record evidence."
+  - "If conditions are unmet, flag incomplete recommendation and route to human review."
+retention_days: 3650
+decision_allowed: false
+created_at: "2026-10-12T00:00:00Z"
+updated_at: "2026-10-12T00:00:00Z"
+approved_by:
+  - "Design Lead"
+```
+
+## Observability and audit metadata
+
+Escalations, decisions, and recommendation records should emit structured audit events. The following JSON Schema defines the minimum standard for logging and review.
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://double-fw.example/schemas/audit-event.schema.json",
+  "title": "AuditEvent",
+  "type": "object",
+  "required": ["event_id", "timestamp", "event_type", "source", "initiating_actor"],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "event_id": { "type": "string", "format": "uuid" },
+    "correlation_id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "event_type": { "type": "string" },
+    "source": { "type": "string", "enum": ["agent", "human", "system", "pipeline", "external"] },
+    "initiating_actor": {
+      "type": "object",
+      "required": ["id", "role"],
+      "properties": {
+        "id": { "type": "string" },
+        "role": { "type": "string" },
+        "display_name": { "type": "string" },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "email": { "type": "string", "format": "email" },
+            "phone": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "id": { "type": "string" },
+        "url": { "type": "string", "format": "uri" }
+      },
+      "additionalProperties": true
+    },
+    "action": { "type": "string" },
+    "decision": {
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "properties": {
+            "outcome": { "type": "string" },
+            "owner": { "type": "string" },
+            "rationale": { "type": "string" }
+          },
+          "required": ["outcome"]
+        }
+      ]
+    },
+    "severity": { "type": "string", "enum": ["info", "low", "medium", "high", "critical"] },
+    "evidence_refs": { "type": "array" },
+    "artifacts": { "type": "array" },
+    "evidence_completeness": {
+      "type": "object",
+      "properties": {
+        "traceable": { "type": "boolean" },
+        "reproducible": { "type": "boolean" },
+        "uncertainty_documented": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "redaction": {
+      "type": "object",
+      "properties": {
+        "redaction_required": { "type": "boolean" },
+        "redacted_fields": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "retention_expiry": { "type": "string", "format": "date-time" },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "repository": { "type": "string" },
+        "branch": { "type": "string" },
+        "commit": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}
+```
+
+### Redaction policy
+
+```yaml
+policy_version: "1.0"
+name: "default-audit-redaction-policy"
+description: "Protect PII, credentials, prompts, and binary content in design decisions and escalation records."
+last_updated: "2026-10-12T00:00:00Z"
+owner: "Security / Data Protection Team"
+apply_stages:
+  - ingest
+  - storage
+  - export
+default_retention_days: 3650
+hashing:
+  algorithm: "HMAC-SHA256"
+  secret_reference: "vault://org/secrets/audit_hmac_key"
+rules:
+  - id: "r1-contact-pii"
+    description: "Hash email and phone contact fields."
+    paths:
+      - "initiating_actor.contact.email"
+      - "initiating_actor.contact.phone"
+      - "target.contact.email"
+    action: "hash"
+    method: "hmac-sha256"
+    apply_to: ["ingest", "storage", "export"]
+  - id: "r2-display-name"
+    description: "Mask names in logs."
+    paths:
+      - "initiating_actor.display_name"
+    action: "mask"
+    mask:
+      keep_last: 1
+      replace_with: "*"
+    store_raw_encrypted: true
+  - id: "r3-credentials"
+    description: "Remove known credential fields and pattern matches."
+    patterns:
+      - "(?i)api[_-]?key"
+      - "(?i)secret|token|password"
+    action: "remove"
+    apply_to: ["ingest", "export"]
+  - id: "r4-freeform-text-sensitive"
+    description: "Mask email and phone numbers in notes and rationales."
+    paths:
+      - "notes"
+      - "decision.rationale"
+    patterns:
+      - "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+      - "\\+?[0-9][0-9\\-\\s]{7,}"
+    action: "mask_regex"
+    mask_char: "X"
+    apply_to: ["ingest", "export"]
+audit:
+  redaction_log:
+    enabled: true
+    fields_recorded:
+      - "event_id"
+      - "timestamp"
+      - "redacted_fields"
+      - "redaction_rule"
+      - "actor_id"
+    retention_days: 3650
+```
+
+### Minimal decision flow
+
+```yaml
+version: "1.0"
+states:
+  - id: "start"
+    description: "Task received"
+    allowed_transitions:
+      - "collect_context"
+  - id: "collect_context"
+    description: "Gather audience, task, evidence, and language/script context"
+    allowed_transitions:
+      - "check_evidence"
+      - "route_human_decision"
+  - id: "check_evidence"
+    description: "Validate traceability, reproducibility, uncertainty, and owner clarity"
+    allowed_transitions:
+      - "sufficient_evidence"
+      - "insufficient_evidence"
+  - id: "sufficient_evidence"
+    description: "Evidence is complete enough to proceed"
+    allowed_transitions:
+      - "execute_autonomously"
+      - "prepare_summary"
+  - id: "insufficient_evidence"
+    description: "Missing evidence; ask for missing information"
+    allowed_transitions:
+      - "route_human_decision"
+  - id: "execute_autonomously"
+    description: "Create recommendation within bounded authority"
+    allowed_transitions:
+      - "log_decision"
+  - id: "prepare_summary"
+    description: "Prepare concise recommendation with evidence references"
+    allowed_transitions:
+      - "route_human_decision"
+      - "log_decision"
+  - id: "route_human_decision"
+    description: "Escalate to accountable human owner"
+    allowed_transitions:
+      - "log_decision"
+  - id: "log_decision"
+    description: "Persist the decision and evidence references"
+    allowed_transitions:
+      - "done"
+  - id: "done"
+    description: "End state"
+
+rules:
+  - id: "r-evidence-required"
+    when: "state == check_evidence"
+    require:
+      - "audience_defined"
+      - "task_defined"
+      - "language_script_defined"
+      - "evidence_summary_present"
+    else_transition: "insufficient_evidence"
+```
+
+### Example policy file
+
+```yaml
+id: "P-001"
+title: "Typography risk: insufficient evidence before recommendation"
+description: "A typography recommendation must include audience, reading task, language/script, and evidence before it is treated as a recommendation."
+severity: "high"
+owner:
+  name: "Design Lead"
+  role: "Design Lead"
+  contact: "mailto:design-lead@example.com"
+decision_gate: "Design Lead"
+applicability:
+  - "typeface.recommendation"
+  - "layout.review"
+conditions:
+  - "audience_defined == true"
+  - "task_defined == true"
+  - "language_script_defined == true"
+  - "evidence_summary_present == true"
+actions:
+  - "If conditions are met, proceed with recommendation and record evidence."
+  - "If conditions are unmet, flag incomplete recommendation and route to human review."
+retention_days: 3650
+decision_allowed: false
+created_at: "2026-10-12T00:00:00Z"
+updated_at: "2026-10-12T00:00:00Z"
+approved_by:
+  - "Design Lead"
+```
+
+## Quick-start checklist
+
+Agents should use this checklist before making or approving a recommendation:
+
+- Define the audience and reading task.
+- Confirm the language and script in scope.
+- Record whether the concern is emotional, functional, or technical accessibility.
+- Identify the context: screen, print, mobile, low-light, low-resolution, assistive environment, etc.
+- Distinguish evidence from assumption.
+- Flag missing evidence and unresolved risks.
+- Require human review for high-impact or brand-critical typographic decisions.
+- Persist a decision record and evidence references.
+
+## Prompt templates the agent can emit automatically
+
+Short, reusable templates:
+
+1. Context prompt
+   - “For this typography recommendation, what is the audience, task, language/script, device context, and reading length?”
+
+2. Evidence prompt
+   - “What evidence supports this choice? State the reading task, test method, and any constraints or risks.”
+
+3. Decision prompt
+   - “Given the evidence, what is the recommendation, what trade-offs remain, and which risks require human sign-off?”
+
+4. Escalation prompt
+   - “This recommendation is incomplete because [missing evidence]. Please review the audience, language/script, and task assumptions before approval.”
+
+## Version and review metadata
+
+The front matter above defines version, author, date, and repository metadata. A machine automation can check these fields before trusting the guidance. For future updates, maintain a review log with at least:
+
+- version number;
+- date of update;
+- approver(s);
+- reason for update; and
+- link to the decision record or change commit.
 
 ## Core principles
 
@@ -36,12 +470,7 @@ A typeface may be individually legible but still poor in long-form reading. A ty
 
 ### 3. Typography is also brand communication
 
-Typography carries identity and tone. It shapes how the audience perceives the source, the organisation, and the message. A brand that uses type only for apparent neutrality may lose distinction; a brand that uses expressive typography without attention to reading performance may create friction or exclusion.
-
-Use typography to support both:
-
-- trust and recognition; and
-- clarity and usability.
+Typography carries identity and tone. It shapes how the audience perceives the source, the organisation, and the message. A brand that uses type only for apparent neutrality may lose distinction; typography must support both trust and clarity.
 
 ### 4. Language, script, and cultural fit are essential
 
@@ -101,7 +530,7 @@ Examine:
 
 ### Test in realistic conditions
 
-The repository strongly recommends comparative testing in the intended context rather than relying on inspection alone. Testing should compare candidate typefaces under the same content, task, and conditions.
+The repository strongly recommends comparative testing in the intended context rather than relying on inspection alone. Testing should compare candidate typefaces under the same content, task, and display environment.
 
 Useful evidence includes:
 
@@ -138,7 +567,7 @@ The type system should define:
 
 ## Governance requirements
 
-LLMs and design tools that support brand or publishing decisions should:A
+LLMs and design tools that support brand or publishing decisions should:
 
 - state the assumed audience and reading task;
 - state the language, script, and context in scope;
@@ -199,4 +628,13 @@ This question protects both accessibility and brand quality. It replaces myths a
 
 ## Source basis
 
-This guidance is derived from the repository’s material, especially the synthesis titled “Accessible Typography for UX and Brand Systems,” and the linked source references included there. It should be used as a practical design and governance reference, not as a substitute for current accessibility standards, organisational policy, or user research in the specific context of deployment.
+This guidance is derived from the repository’s material, especially the synthesis titled “Accessible Typography for UX and Brand Systems,” and the linked source references included there. This repository acts as a practical knowledge base for typographic decision-making, review, and human-centred evaluation.
+
+## Review and changelog
+
+- v1.0 (2026-10-12): Added structured front matter, metadata schema, audit-event schema, redaction policy, decision-flow rules, and policy example to support machine parsing, governance, and automated review.
+
+- v0.9 (initial): Human-readable design guidance for accessible typography in brand, communications, and publishing contexts.
+
+This file should be reviewed periodically to ensure it remains aligned with current design practice, accessibility evidence, and repository updates.
+
