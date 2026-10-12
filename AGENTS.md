@@ -2,7 +2,7 @@
 title: "Agent Instructions for Brand, Communications, Marketing, and Publishing Design"
 version: "1.0"
 author:
-  name: "Double FW"
+  name: "Double-FW, Gareth Ford Williams"
   contact: "mailto:info@doublefw.com"
 date: "2026-10-12"
 license: "CC-BY-4.0"
