@@ -1,0 +1,23 @@
+{
+  "source_repository": "Double-FW/Accessible-Typography-for-UX-and-Brand-Systems",
+  "destination_dataset": "GarethFW/Accessible_Font_And_Typographic_Design",
+  "dataset_version": "1.0.0",
+  "files": [
+    "AGENTS.md",
+    "Accessible_Typography_for_UX_and_Brand_Systems.md",
+    "README.md"
+  ],
+  "required_files": [
+    "AGENTS.md",
+    "Accessible_Typography_for_UX_and_Brand_Systems.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "source_licenses": {
+    "AGENTS.md": "CC-BY-4.0",
+    "Accessible_Typography_for_UX_and_Brand_Systems.md": "MIT",
+    "README.md": "MIT"
+  },
+  "article_file": "Accessible_Typography_for_UX_and_Brand_Systems.md",
+  "approved_license_sha256": "7ef02bc0b6ba376de57be5f27784eef23df6a74068a4a2a172f95ba2c605b7af"
+}
