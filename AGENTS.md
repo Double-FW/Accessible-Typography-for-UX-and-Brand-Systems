@@ -4,7 +4,7 @@ version: "1.1"
 author:
   name: "Double-FW, Gareth Ford Williams"
 date: "2026-11-06"
-license: "CC-BY-4.0"
+license: "MIT"
 language: "en"
 repository: "github.com/Double-FW/Accessible-Typography-for-UX-and-Brand-Systems"
 artifact_type: "knowledge-base/agent-guidance"
