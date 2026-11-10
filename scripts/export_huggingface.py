@@ -61,7 +61,7 @@ def build(root, output):
     texts, manifest, omitted = read_sources(root, cfg)
     sha = git(root, 'rev-parse', 'HEAD').decode().strip()
     date = git(root, 'show', '-s', '--format=%cs', 'HEAD').decode().strip()
-    warnings = ['The root repository licence is MIT; AGENTS.md explicitly declares CC-BY-4.0. File-level declarations and attribution are preserved, and the dataset card lists both licences with their scope in LICENSE_NOTICES.md.',
+    warnings = ['The root repository licence and the current AGENTS.md declaration are MIT. Source notices and author attribution are preserved in records and LICENSE_NOTICES.md.',
                 'This is source-based practitioner/editorial synthesis, not a peer-reviewed collection, a tested typeface, a universal font ranking or accessibility certification.']
     for path in cfg['files']:
         if path not in texts:
@@ -69,8 +69,8 @@ def build(root, output):
         declared = metadata(texts[path]).get('license')
         if declared and str(declared).upper() != cfg['source_licenses'][path].upper():
             raise ValueError('Source-level licence changed; review export configuration and notices: ' + path)
-    if metadata(texts['AGENTS.md']).get('license') != 'CC-BY-4.0':
-        raise ValueError('Review AGENTS.md licence and the mixed-licence notices together.')
+    if metadata(texts['AGENTS.md']).get('license') != 'MIT':
+        raise ValueError('Review AGENTS.md licence and the MIT notices together.')
     introductions = {path: sections(text)[0][2] if text else '' for path, text in texts.items()}
     def row(path, key, title, body, a, b, hierarchy, kind):
         md = metadata(texts[path])
@@ -94,7 +94,7 @@ def build(root, output):
         if path not in texts:
             continue
         text = texts[path]
-        kind = 'agent_guidance_with_file_level_cc_by_4_0' if path == 'AGENTS.md' else 'orientation' if path == 'README.md' else 'practitioner_editorial_typography_synthesis'
+        kind = 'agent_guidance_with_file_level_mit' if path == 'AGENTS.md' else 'orientation' if path == 'README.md' else 'practitioner_editorial_typography_synthesis'
         docs.append(row(path, 'document', path, text, 0, len(text), [], kind))
         for key, title, body, a, b, hierarchy in sections(text):
             section_kind = ('source_attribution_and_interpretation_limits' if path == cfg['article_file'] and title in ('Sources and attribution','Source and interpretation notes') else
@@ -128,19 +128,15 @@ def build(root, output):
         'applicable_source_licenses': cfg['source_licenses'], 'licence_scope_notice': 'LICENSE_NOTICES.md'})
     notices = f'''# Licence scope and source attribution
 
-This export preserves the source repository's root MIT LICENSE unchanged. It also preserves the explicit CC-BY-4.0 declaration in AGENTS.md. The dataset card lists both licences to describe this mixed collection; it does not offer a choice to apply MIT to the CC BY file or claim that each record is dual licensed.
+The checked source repository's root LICENSE and current AGENTS.md front matter declare MIT. This export copies the root MIT notice unchanged, including copyright (c) 2026 Double FW. All exported source documents and their exact extracted sections record MIT as applicable_source_license.
 
-| Source content | Applicable recorded terms | Attribution |
+| Source content | Recorded terms | Attribution |
 | --- | --- | --- |
-| AGENTS.md and its extracted sections | CC BY 4.0, as explicitly declared in its source front matter | Double-FW, Gareth Ford Williams |
-| Accessible_Typography_for_UX_and_Brand_Systems.md and its sections | Root repository MIT licence; retain the complete article/source attribution | Gareth Ford Williams; Bruno Maag; David Bailey; Michael Mathews; The Readability Group |
+| AGENTS.md and its sections | MIT, as declared in current front matter and the root LICENSE | Double-FW, Gareth Ford Williams |
+| Accessible_Typography_for_UX_and_Brand_Systems.md and its sections | Root repository MIT licence; retain article/source attribution | Gareth Ford Williams; Bruno Maag; David Bailey; Michael Mathews; The Readability Group |
 | README.md and its sections | Root repository MIT licence | Double FW and the source attribution listed in README.md |
 
-CC BY 4.0 licence: https://creativecommons.org/licenses/by/4.0/
-
-CC BY 4.0 legal code: https://creativecommons.org/licenses/by/4.0/legalcode
-
-The root MIT notice is in LICENSE, including copyright (c) 2026 Double FW. Preserve applicable attribution, licence links and notices when reusing records. Each record's applicable_source_license identifies the recorded source terms; repository_license describes the root source licence only. Full front matter and attribution remain in metadata_json/source_attribution_json and the exact source text.
+Preserve the copyright and permission notice in LICENSE and the relevant source attribution. Each record retains original front matter, applicable_source_license and source_attribution_json. No source prose or attribution was changed by this export.
 
 Source: https://github.com/{SOURCE}
 
@@ -148,16 +144,16 @@ Source revision: `{sha}`. AGENTS.md: https://github.com/{SOURCE}/blob/{sha}/AGEN
 
 Main article: https://github.com/{SOURCE}/blob/{sha}/Accessible_Typography_for_UX_and_Brand_Systems.md
 
-The complete documents are reproduced without prose changes. Heading-based excerpts and descriptive metadata have been added; these are extraction/format changes, not author approval or endorsement. The source credits the main article collectively and does not assign each passage to an individual author. No such assignment is invented here. External linked articles, fonts and font files are not included or relicensed by this export.
+Complete source documents are reproduced without prose changes. Heading-based excerpts and descriptive metadata have been added; these are extraction/format changes, not author approval or endorsement. The article credits its authors collectively and does not assign each passage to an individual author; no such assignment is invented here. Linked third-party articles, fonts and font files are not included or relicensed.
+
+These notices describe the declarations in the current checked source revision. They do not rewrite notices in earlier source revisions or make an independent rights determination.
 '''
     (output/'LICENSE_NOTICES.md').write_text(notices,encoding='utf-8')
     card = f'''---
 pretty_name: Double FW Accessible Font and Typographic Design
 language:
 - en
-license:
-- mit
-- cc-by-4.0
+license: mit
 tags:
 - accessibility
 - typography
@@ -196,7 +192,7 @@ The views overlap. Do not concatenate them blindly. `train` is a loading convent
 
 ## Licence scope and attribution
 
-This is a mixed-licence collection. The source root LICENSE is MIT and copied unchanged. AGENTS.md explicitly declares CC BY 4.0, preserved for that file and its sections. The two licence tags describe the collection, not an option to relicense every record under either licence. Read LICENSE_NOTICES.md for file-level scope, attribution, source revision, licence links and extraction changes. applicable_source_license records each source's recorded terms; repository_license identifies the root repository terms. Source-specific rights and linked third-party material are not erased or relicensed. This is not an independent rights audit.
+The checked source repository's root LICENSE and current AGENTS.md front matter declare MIT. The MIT notice is copied unchanged. Read LICENSE_NOTICES.md for source attribution, recorded file-level scope and extraction changes. applicable_source_license records each source's current terms; repository_license identifies the root terms. Source-specific notices and linked third-party rights remain intact. This export does not rewrite notices in historical revisions and is not an independent rights audit.
 
 ## Context and evidence boundaries
 

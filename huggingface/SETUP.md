@@ -1,5 +1,12 @@
 # Weekly dataset update setup
 
+MIT UPDATE — EXPORT FORMAT 1.0.1
+
+If you already completed setup: open this fresh download, upload the three folders
+inside UPLOAD_TO_GITHUB again using STAGE 2, then start a NEW workflow run using
+STAGE 6. Your existing GitHub workflow and HF_TOKEN secret can be reused.
+Do not rerun the old failed job: it uses the earlier files.
+
 ACCESSIBLE FONT AND TYPOGRAPHIC DESIGN — WEEKLY HUGGING FACE UPDATES
 
 GitHub source: https://github.com/Double-FW/Accessible-Typography-for-UX-and-Brand-Systems
@@ -119,10 +126,10 @@ Mathews and The Readability Group. Original nested front matter, author lists,
 source characteristics, editorial treatments, evidence limits and source text
 are preserved. No font files or linked source articles are copied.
 
-The source has mixed licensing: the root LICENSE is MIT; AGENTS.md explicitly
-declares CC BY 4.0. Both are preserved and recorded per source document/section.
-The dataset card lists both; LICENSE_NOTICES.md explains scope and attribution.
-This does not make every record dual licensed or change its existing terms.
+The current root LICENSE and AGENTS.md declaration are MIT. These declarations
+are preserved and recorded per source document/section. The dataset card uses
+MIT; LICENSE_NOTICES.md retains author credits and explains the source scope.
+Historical source revisions keep their original notices.
 A change to root or source-level licence declarations stops publication for
 review so the export metadata and notices can be kept accurate.
 

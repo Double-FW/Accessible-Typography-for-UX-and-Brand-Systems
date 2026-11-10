@@ -76,7 +76,7 @@ class TypographySyncTests(unittest.TestCase):
 
     def test_changed_file_level_licence_blocks_export(self):
         path=self.repo/'AGENTS.md'
-        path.write_text(path.read_text().replace('license: "CC-BY-4.0"','license: "MIT"'))
+        path.write_text(path.read_text().replace('license: "MIT"','license: "CC-BY-4.0"'))
         self.commit()
         with self.assertRaisesRegex(ValueError,'licence changed'): self.build()
 
@@ -137,22 +137,24 @@ class TypographySyncTests(unittest.TestCase):
         self.assertIn('workflow_dispatch', workflow['on'])
         self.assertEqual(common.load_config(ROOT)['destination_dataset'], 'GarethFW/Accessible_Font_And_Typographic_Design')
 
-    def test_mixed_licence_notices_and_source_attribution_are_preserved(self):
+    def test_current_mit_licence_and_source_attribution_are_preserved(self):
         import yaml
         from huggingface_hub import DatasetCardData
         self.build();docs={x['source_path']:x for x in self.rows('documents.jsonl')}
-        self.assertEqual(docs['AGENTS.md']['applicable_source_license'],'CC-BY-4.0')
+        self.assertEqual(docs['AGENTS.md']['applicable_source_license'],'MIT')
         article=docs['Accessible_Typography_for_UX_and_Brand_Systems.md']
         self.assertEqual(article['applicable_source_license'],'MIT')
         original=exporter.metadata(article['text'])
         self.assertEqual(json.loads(article['source_attribution_json']),original['authors'])
         self.assertEqual(json.loads(article['metadata_json'])['editorial_treatment'],original['editorial_treatment'])
         card=yaml.safe_load((self.out/'README.md').read_text().split('---',2)[1])
-        self.assertEqual(card['license'],['mit','cc-by-4.0'])
+        self.assertEqual(card['license'],'mit')
         DatasetCardData(**card)
         notice=(self.out/'LICENSE_NOTICES.md').read_text()
         for author in original['authors']: self.assertIn(author,notice)
-        self.assertIn('https://creativecommons.org/licenses/by/4.0/',notice)
+        self.assertIn('MIT',notice)
+        self.assertNotIn('CC-BY-4.0',notice)
+        self.assertTrue(all(x['applicable_source_license']=='MIT' for x in docs.values()))
 
     def test_blank_governance_record_and_proposed_tests_are_not_results(self):
         import yaml
