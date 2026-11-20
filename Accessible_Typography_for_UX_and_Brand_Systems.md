@@ -403,7 +403,7 @@ This article combines material supplied in *The Readability Group - Various Writ
 - Sophie Beier, [Typeface Legibility for Visually Impaired Readers](https://sofiebeier.dk/).
 - Kevin Larson, [The Science of Word Recognition](https://docs.microsoft.com/en-us/typography/develop/word-recognition).
 - Eleni Beveratou, [The Effect of Type Design and Typesetting on Visually Impaired Readers](https://www.researchgate.net/publication/309749121_The_effect_of_type_design_and_typesetting_on_visually_impaired_readers).
-- Jennifer Buckingham and Anne Castles, [Why Do Some Children Learn to Read Without Explicit Teaching](https://www.nomanis.com.au/post/why-do-some-children-learn-to-read-without-explicit-teaching).
+- Jennifer Buckingham and Anne Castles, [Why Do Some Children Learn to Read Without Explicit Teaching](https://www.nomanis.com.au/blog/single-post/why-do-some-children-learn-to-read-without-explicit-teaching).
 - [Word Superiority Effect](https://en.wikipedia.org/wiki/Word_superiority_effect), background reference linked from the source material.
 
 ### Visual system references
